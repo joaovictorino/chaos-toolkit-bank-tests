@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: chaos-db
+  namespace: aulainfra
+
+spec:
+  template:
+    spec:
+      containers:
+      - name: chaos-db
+        image: aulainfraacr.azurecr.io/chaostoolkit
+        volumeMounts:
+        - name: config-volume
+          mountPath: /experiment
+      volumes:
+      - name: config-volume
+        configMap:
+          name: chaostoolkit-experiment-db
+      restartPolicy: Never
+  backoffLimit: 1

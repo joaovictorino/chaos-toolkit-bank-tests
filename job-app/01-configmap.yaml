@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chaostoolkit-config-app
+  namespace: aulainfra
+data:
+  experiment.json: |
+    {
+      "title": "Após o pod da aplicação ser derrubado ele voltará ao ar em menos de 10 segundos?",
+      "description": "Esperamos que o pod da aplicação volte ao ar em menos de 10 segundos",
+      "tags": ["kubernetes", "springapp"],
+      "steady-state-hypothesis": {
+          "title": "Verificando se os pods estão disponíveis",
+          "probes": [
+              {
+                  "name": "Todos os pods estão no ar?",
+                  "type": "probe",
+                  "tolerance": true,
+                  "provider": {
+                      "type": "python",
+                      "module": "chaosk8s.probes",
+                      "func": "deployment_fully_available",
+                      "arguments": {
+                          "name": "app",
+                          "ns": "aulainfra",
+                          "timeout": 20
+                      }
+                  }
+              }
+          ]
+      },
+      "method": [
+          {
+              "type": "action",
+              "name": "Derrubando um pod dentro do deployment",
+              "provider": {
+                  "type": "python",
+                  "module": "chaosk8s.pod.actions",
+                  "func": "terminate_pods",
+                  "arguments": {
+                      "label_selector": "app=app",
+                      "ns": "aulainfra",
+                      "qty": 1,
+                      "rand": true,
+                      "grace_period": 0
+                  }
+              }
+          }
+        ]
+    }

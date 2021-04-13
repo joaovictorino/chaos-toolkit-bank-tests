@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: chaos-app
+  namespace: aulainfra
+
+spec:
+  template:
+    spec:
+      containers:
+      - name: chaos-app
+        image: aulainfraacr.azurecr.io/chaostoolkit
+        volumeMounts:
+        - name: experiment-volume
+          mountPath: /experiment
+      volumes:
+      - name: experiment-volume
+        configMap:
+          name: chaostoolkit-config-app
+      restartPolicy: Never
+  backoffLimit: 1
