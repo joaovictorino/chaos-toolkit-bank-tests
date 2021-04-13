@@ -1,0 +1,21 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: db-network-delay
+  namespace: aulainfra
+spec:
+  action: delay
+  mode: one
+  selector:
+    namespaces:
+      - aulainfra
+    labelSelectors:
+      app: mysqldb-stfs
+  duration: 30s
+  scheduler:
+    cron: '@every 60s'
+  delay:
+    latency: 2s
+    correlation: '0'
+    jitter: 0ms
+  direction: to

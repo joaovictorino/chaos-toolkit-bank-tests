@@ -1,0 +1,17 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: pod-kill-app
+  namespace: aulainfra
+spec:
+  selector:
+    namespaces:
+      - aulainfra
+    labelSelectors:
+      app: app
+  scheduler:
+    cron: '@every 60s'
+  action: pod-kill
+  mode: one
+  duration: 30s
+  gracePeriod: 0

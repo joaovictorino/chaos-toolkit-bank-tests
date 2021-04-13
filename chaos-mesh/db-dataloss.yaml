@@ -1,0 +1,20 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: db-dataloss
+  namespace: aulainfra
+spec:
+  action: loss
+  mode: one
+  selector:
+    namespaces:
+      - aulainfra
+    labelSelectors:
+      app: mysqldb-stfs
+  duration: 30s
+  scheduler:
+    cron: '@every 60s'
+  loss:
+    loss: '100'
+    correlation: '50'
+  direction: to

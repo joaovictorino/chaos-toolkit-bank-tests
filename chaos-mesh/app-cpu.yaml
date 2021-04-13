@@ -1,0 +1,19 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: app-cpu
+  namespace: aulainfra
+spec:
+  mode: one
+  selector:
+    namespaces:
+      - aulainfra
+    labelSelectors:
+      app: app
+  stressors:
+    cpu:
+      workers: 2
+      load: 0
+  duration: 30s
+  scheduler:
+    cron: '@every 60s'
