@@ -6,13 +6,13 @@
         "title": "Verificando se a aplicação retorna a consulta",
         "probes": [
             {
-                "name": "Aplicação está retornando a consulta",
+                "name": "application-returning-query",
                 "type": "probe",
                 "tolerance": 200,
                 "provider": {
                     "type": "http",
-                    "url": "http://springapp.eastus.cloudapp.azure.com/owners/11",
-                    "timeout": [ 10, 60 ]
+                    "url": "http://springapp.eastus.cloudapp.azure.com/owners/10",
+                    "timeout": [ 10, 10 ]
                 }
             }
         ]
@@ -20,7 +20,7 @@
     "method": [
         {
             "type": "action",
-            "name": "Excluindo o pod do banco de dados",
+            "name": "deleting-pod-database",
             "provider": {
                 "type": "python",
                 "module": "chaosk8s.pod.actions",
@@ -31,7 +31,13 @@
                     "qty": 1,
                     "grace_period": 0
                 }
+            },
+            "pauses": {
+                "after": 20
             }
+        },
+        {
+            "ref": "application-returning-query"
         }
     ]
 }
