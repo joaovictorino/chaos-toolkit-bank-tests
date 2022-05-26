@@ -45,7 +45,7 @@
             "tolerance": 200,
             "provider": {
                 "type": "http",
-                "url": "http://springapp.eastus.cloudapp.azure.com/owners/11"
+                "url": "http://springpetapp.eastus.cloudapp.azure.com/owners/11"
             }
         }
     ]
