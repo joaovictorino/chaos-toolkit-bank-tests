@@ -11,7 +11,7 @@
                 "tolerance": 200,
                 "provider": {
                     "type": "http",
-                    "url": "http://springpetapp.eastus.cloudapp.azure.com/owners/10",
+                    "url": "http://springpetapp.westus.cloudapp.azure.com/owners/10",
                     "timeout": [ 10, 10 ]
                 }
             }
